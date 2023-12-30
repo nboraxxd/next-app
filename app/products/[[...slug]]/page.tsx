@@ -1,9 +1,8 @@
 type Props = {
-  params: {
-    slug: string[]
-  }
+  params: { slug: string[] }
+  searchParams: { sortOrder: string }
 }
 
-export default function ProductPage({ params: { slug } }: Props) {
-  return <div>ProductPage {slug}</div>
+export default function ProductPage({ params: { slug }, searchParams: { sortOrder } }: Props) {
+  return <div>ProductPage {slug} {sortOrder}</div>
 }
