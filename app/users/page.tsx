@@ -12,6 +12,7 @@ export default function UsersPage({ searchParams: { sortOrder } }: Props) {
     <>
       <Link href="/">Home</Link>
       <h1 className="text-xl font-semibold">Users</h1>
+      <Link href="/users/new" className='btn btn-primary'>New User</Link>
       <UserTable sortOrder={sortOrder} />
     </>
   )
