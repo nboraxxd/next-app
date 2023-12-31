@@ -12,7 +12,7 @@ type Props = {
 }
 
 export default async function UserTable({ sortOrder }: Props) {
-  const res = await fetch('https://jsonplaceholder.typicode.com/xusers', { next: { revalidate: 10 } })
+  const res = await fetch('https://jsonplaceholder.typicode.com/users', { next: { revalidate: 10 } })
   const users: User[] = await res.json()
 
   const sortedUsers = sort(users).asc(sortOrder === 'email' ? (user) => user.email : (user) => user.name)
