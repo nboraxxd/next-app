@@ -34,7 +34,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
       where: { id: user.id },
       data: { name: body.name, email: body.email },
     })
-    
+
     return NextResponse.json(updatedUser)
   } catch (error) {
     return NextResponse.json({ error: 'Update user failed' }, { status: 500 })
@@ -47,7 +47,10 @@ export async function DELETE(request: NextRequest, { params: { id } }: Props) {
   // If not found, return 404 error
   // Else delete the user
   // Return 204 status code
-  if (+id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  const user = await prisma.user.findUnique({ where: { id: +id } })
+  if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+
+  await prisma.user.delete({ where: { id: user.id } })
 
   return NextResponse.json({ message: 'Delete user success' }, { status: 200 })
 }
