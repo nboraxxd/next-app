@@ -1,4 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
+import schema from '@/app/api/users/schema'
 
 type Props = {
   params: { id: number }
@@ -21,7 +22,10 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
   // Else update the user
   // Return the updated user
   const body: { name: string } = await request.json()
-  if (!body.name) return NextResponse.json({ error: 'Name is required' }, { status: 400 })
+
+  const validation = schema.safeParse(body)
+
+  if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
 
   if (id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
@@ -35,5 +39,5 @@ export async function DELETE(request: NextRequest, { params: { id } }: Props) {
   // Return 204 status code
   if (id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-  return NextResponse.json({message: 'Delete user success'}, { status: 200 })
+  return NextResponse.json({ message: 'Delete user success' }, { status: 200 })
 }
