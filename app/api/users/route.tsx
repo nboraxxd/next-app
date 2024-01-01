@@ -1,11 +1,11 @@
 import { NextRequest, NextResponse } from 'next/server'
-import schema from '@/app/api/users/schema'
+import schema from '@/app/api/users/schema' 
+import prisma from '@/prisma/client'
 
-export function GET(_request: NextRequest) {
-  return NextResponse.json([
-    { id: 1, name: 'John' },
-    { id: 2, name: 'Jane' },
-  ])
+export async function GET(_request: NextRequest) {
+  const users = await prisma.user.findMany()
+
+  return NextResponse.json(users)
 }
 
 export async function POST(request: NextRequest) {
@@ -15,5 +15,5 @@ export async function POST(request: NextRequest) {
 
   if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
 
-  return NextResponse.json({ id: 1, name: body.name }, {status: 201})
+  return NextResponse.json({ id: 1, name: body.name }, { status: 201 })
 }

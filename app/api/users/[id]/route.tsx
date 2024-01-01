@@ -1,17 +1,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import schema from '@/app/api/users/schema'
+import prisma from '@/prisma/client'
 
 type Props = {
-  params: { id: number }
+  params: { id: string }
 }
 
-export function GET(_request: NextRequest, { params: { id } }: Props) {
-  // Fetch data from a database
-  // If not found, return 404 error
-  // Else return the data
-  if (id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+export async function GET(_request: NextRequest, { params: { id } }: Props) {
+  const user = await prisma.user.findUnique({ where: { id: +id } })
 
-  return NextResponse.json({ id, name: 'John Doe' })
+  if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+
+  return NextResponse.json(user)
 }
 
 export async function PUT(request: NextRequest, { params: { id } }: Props) {
@@ -27,7 +27,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
 
   if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
 
-  if (id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  if (+id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
   return NextResponse.json({ id, name: body.name })
 }
@@ -37,7 +37,7 @@ export async function DELETE(request: NextRequest, { params: { id } }: Props) {
   // If not found, return 404 error
   // Else delete the user
   // Return 204 status code
-  if (id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  if (+id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
   return NextResponse.json({ message: 'Delete user success' }, { status: 200 })
 }
