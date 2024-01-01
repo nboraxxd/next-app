@@ -21,15 +21,25 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
   // If doesn't exist, return 404 error
   // Else update the user
   // Return the updated user
-  const body: { name: string } = await request.json()
+  const body: { name: string; email: string } = await request.json()
 
   const validation = schema.safeParse(body)
-
   if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
 
-  if (+id > 10) return NextResponse.json({ error: 'User not found' }, { status: 404 })
+  const user = await prisma.user.findUnique({ where: { id: +id } })
+  if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
-  return NextResponse.json({ id, name: body.name })
+  try {
+    const updatedUser = await prisma.user.update({
+      where: { id: user.id },
+      data: { name: body.name, email: body.email },
+    })
+    
+    return NextResponse.json(updatedUser)
+  } catch (error) {
+    return NextResponse.json({ error: 'Update user failed' }, { status: 500 })
+  }
+
 }
 
 export async function DELETE(request: NextRequest, { params: { id } }: Props) {
