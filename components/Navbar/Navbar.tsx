@@ -24,7 +24,14 @@ export default function Navbar() {
           Sign in
         </Link>
       )}
-      {status === 'authenticated' && <div className="px-5 py-2.5">{session.user!.name}</div>}
+      {status === 'authenticated' && (
+        <div className="px-5 py-2.5">
+          {session.user!.name}
+          <Link href="api/auth/signout" className="ml-3">
+            Sign out
+          </Link>
+        </div>
+      )}
     </nav>
   )
 }
