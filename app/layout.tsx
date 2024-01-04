@@ -4,6 +4,7 @@ import { Inter } from 'next/font/google'
 
 import AuthProvider from '@/app/auth/Provider'
 import { Navbar } from '@/components/Navbar'
+import GoogleAnalyticsScript from '@/app/GoogleAnalyticsScript'
 import './globals.css'
 
 const inter = Inter({ subsets: ['latin'] })
@@ -16,6 +17,7 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en" data-theme="cupcake">
+      <GoogleAnalyticsScript />
       <body className={inter.className}>
         <AuthProvider>
           <Navbar />
