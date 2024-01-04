@@ -7,7 +7,7 @@ type Props = {
 }
 
 export async function GET(_request: NextRequest, { params: { id } }: Props) {
-  const user = await prisma.user.findUnique({ where: { id: +id } })
+  const user = await prisma.user.findUnique({ where: { id } })
 
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
@@ -26,7 +26,7 @@ export async function PUT(request: NextRequest, { params: { id } }: Props) {
   const validation = schema.safeParse(body)
   if (!validation.success) return NextResponse.json(validation.error.errors, { status: 400 })
 
-  const user = await prisma.user.findUnique({ where: { id: +id } })
+  const user = await prisma.user.findUnique({ where: { id } })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
   try {
@@ -47,7 +47,7 @@ export async function DELETE(request: NextRequest, { params: { id } }: Props) {
   // If not found, return 404 error
   // Else delete the user
   // Return 204 status code
-  const user = await prisma.user.findUnique({ where: { id: +id } })
+  const user = await prisma.user.findUnique({ where: { id } })
   if (!user) return NextResponse.json({ error: 'User not found' }, { status: 404 })
 
   await prisma.user.delete({ where: { id: user.id } })

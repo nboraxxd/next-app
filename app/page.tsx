@@ -3,7 +3,8 @@ import { getServerSession } from 'next-auth'
 import Image from 'next/image'
 import { Metadata } from 'next'
 
-import { authOptions } from '@/app/api/auth/[...nextauth]/route'
+
+import authOptions from '@/app/api/auth/authOptions'
 import { ProductCart } from '@/components/ProductCart'
 import _coffee from '@/public/images/coffee.jpg'
 
