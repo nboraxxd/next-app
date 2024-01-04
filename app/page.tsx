@@ -1,6 +1,7 @@
 import Link from 'next/link'
 import { getServerSession } from 'next-auth'
 import Image from 'next/image'
+import { Metadata } from 'next'
 
 import { authOptions } from '@/app/api/auth/[...nextauth]/route'
 import { ProductCart } from '@/components/ProductCart'
@@ -10,7 +11,7 @@ export default async function Home() {
   const session = await getServerSession(authOptions)
 
   return (
-    <main className='relative h-screen'>
+    <main className="relative h-screen">
       <h1>Hello {session && <span>{session.user!.name}</span>}</h1>
       <Link href="/users">Users</Link>
       <ProductCart />
@@ -24,4 +25,13 @@ export default async function Home() {
       />
     </main>
   )
+}
+
+export async function generateMetadata(): Promise<Metadata> {
+  const _product = await fetch('')
+
+  return {
+    title: 'product.title',
+    description: 'product.description',
+  }
 }
