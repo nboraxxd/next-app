@@ -11,7 +11,7 @@ export default function Navbar() {
       <Link href="/" className="px-5 py-2.5">
         Next.js
       </Link>
-      <Link href="/users" className="px-5 py-2.5">
+      <Link href="/users" className="px-5 py-2.5 font-poppins">
         Users
       </Link>
       <Link href="/admin" className="px-5 py-2.5">
