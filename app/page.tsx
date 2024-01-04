@@ -28,7 +28,7 @@ export default async function Home() {
 }
 
 export async function generateMetadata(): Promise<Metadata> {
-  const _product = await fetch('')
+  // const _product = await fetch('')
 
   return {
     title: 'product.title',
